@@ -4,7 +4,6 @@ import Post from "./Post";
 import ImageUpload from "./ImageUpload";
 import { db, auth } from "./firebase";
 import { Button, Avatar, makeStyles, Modal, Input } from "@material-ui/core";
-import FlipMove from "react-flip-move";
 function getModalStyle() {
   const top = 50;
   const left = 50;
@@ -39,6 +38,7 @@ function App() {
   const [user, setUser] = useState(null);
   const [open, setOpen] = useState(false);
   const [registerOpen, setRegisterOpen] = useState(false);
+  // const [show,setShow]=useState(false);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
@@ -172,7 +172,7 @@ function App() {
           </form>
         )}
       </div>
-
+      {/* <Button onClick={()=>setShow(true)}> */}
       <div className="app__posts">
         <div className="app__postsLeft">
             {posts.map(({ id, post }) => (
@@ -187,6 +187,7 @@ function App() {
             ))}
         </div>
       </div>
+      {/* </Button> */}
 
       {user?.displayName ? (
         <div className="app__upload">

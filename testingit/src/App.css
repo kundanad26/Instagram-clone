@@ -90,8 +90,8 @@
 }
 
 .app__headerAvatar {
-  height: 30px !important;
-  width: 30px !important;
+  height: 30px;
+  width: 30px ;
 }
 
 .app__header {
