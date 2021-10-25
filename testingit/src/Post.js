@@ -16,7 +16,7 @@ const Post = forwardRef(
           .collection("posts")
           .doc(postId)
           .collection("comments")
-          .orderBy('timestamp')
+          .orderBy('timestamp','desc')
           .onSnapshot((snapshot) => {
             setComments(snapshot.docs.map((doc) => doc.data()));
           });
@@ -51,7 +51,7 @@ const Post = forwardRef(
 
         <img className="post__image" src={imageUrl} alt="post" />
         <h4 className="post__text"><strong>{username}</strong>
-          <span className="post__caption">{caption}</span>
+        <span className="post__caption"> {caption}</span>
         </h4>
 
         <div className="post__comments">
@@ -85,5 +85,4 @@ const Post = forwardRef(
     );
   }
 );
-
 export default Post;

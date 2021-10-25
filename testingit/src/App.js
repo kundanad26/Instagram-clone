@@ -1,28 +1,3 @@
-/*import logo from './logo.svg';
-import './App.css';
-
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
-
-export default App;*/
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import Post from "./Post";
@@ -30,8 +5,6 @@ import ImageUpload from "./ImageUpload";
 import { db, auth } from "./firebase";
 import { Button, Avatar, makeStyles, Modal, Input } from "@material-ui/core";
 import FlipMove from "react-flip-move";
-import InstagramEmbed from "react-instagram-embed";
-
 function getModalStyle() {
   const top = 50;
   const left = 50;
@@ -73,16 +46,9 @@ function App() {
         // user is logged in...
         console.log(authUser);
         setUser(authUser);
-
-        if (authUser.displayName) {
-          // dont update username
-        } else {
-          return authUser.updateProfile({
-            displayName: username,
-          });
         }
-      } else {
-        setUser(null);
+      else {
+        setUser(null);  //user is logged out 
       }
     });
 
@@ -112,6 +78,11 @@ function App() {
     e.preventDefault();
     auth
       .createUserWithEmailAndPassword(email, password)
+      .then((authUser)=>{
+          authUser.user.updateProfile({
+            displayName:username
+          })
+      })
       .catch((error) => alert(error.message));
 
     setRegisterOpen(false);
@@ -204,7 +175,6 @@ function App() {
 
       <div className="app__posts">
         <div className="app__postsLeft">
-          <FlipMove>
             {posts.map(({ id, post }) => (
               <Post
                 user={user}
@@ -215,21 +185,6 @@ function App() {
                 imageUrl={post.imageUrl}
               />
             ))}
-          </FlipMove>
-        </div>
-        <div className="app__postsRight">
-          <InstagramEmbed
-            url="https://www.instagram.com/p/B_uf9dmAGPw/"
-            maxWidth={320}
-            hideCaption={false}
-            containerTagName="div"
-            protocol=""
-            injectScript
-            onLoading={() => {}}
-            onSuccess={() => {}}
-            onAfterRender={() => {}}
-            onFailure={() => {}}
-          />
         </div>
       </div>
 
@@ -239,7 +194,7 @@ function App() {
         </div>
       ) : (
         <center>
-          <h3>Login to upload</h3>
+          <h3> Login to upload</h3>
         </center>
       )}
     </div>
