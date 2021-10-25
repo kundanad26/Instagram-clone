@@ -16,6 +16,7 @@ const Post = forwardRef(
           .collection("posts")
           .doc(postId)
           .collection("comments")
+          .orderBy('timestamp')
           .onSnapshot((snapshot) => {
             setComments(snapshot.docs.map((doc) => doc.data()));
           });
@@ -32,6 +33,7 @@ const Post = forwardRef(
       db.collection("posts").doc(postId).collection("comments").add({
         text: comment,
         username: user.displayName,
+        timestamp:firebase.firestore.FieldValue.serverTimestamp()
       });
       setComment("");
     };
@@ -55,7 +57,7 @@ const Post = forwardRef(
         <div className="post__comments">
           {comments.map((comment) => (
             <p>
-              <b>{comment.username}</b> {comment.text}
+              <strong>{comment.username}</strong> {comment.text}
             </p>
           ))}
         </div>
