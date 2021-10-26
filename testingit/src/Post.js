@@ -3,16 +3,12 @@ import "./Post.css";
 import Avatar from "@material-ui/core/Avatar";
 import { db } from "./firebase";
 import firebase from "firebase";
-// import { Modal } from "@material-ui/core";
-import Modal from 'react-modal';
-
-
 const Post = forwardRef(
-  ({ user, username, postId, imageUrl, caption }, ref) => {
+  ({ user, username, postId, imageUrl, caption,handleClick}, ref) => {
     const [comments, setComments] = useState([]);
     const [comment, setComment] = useState("");
-    const [show,setShow]=useState(false);
-    const handleClose=() =>setShow(false);
+    
+   
     useEffect(() => {
       let unsubscribe;
       if (postId) {
@@ -52,11 +48,8 @@ const Post = forwardRef(
           />
           <h3>{username}</h3>
         </div>
-       {show&& <Modal isOpen={show} onRequestClose={handleClose}> 
-        <img className="post__image" src={imageUrl} alt="post" />
-         </Modal> }
-         <img className="post__image" onClick={()=>{setShow(true);
-          console.log("hi",show)}} src={imageUrl} alt="post" />
+     
+         <img className="post__image" onClick={()=>handleClick(imageUrl)} src={imageUrl} alt="post" />
         <h4 className="post__text"><strong>{username}</strong>
         <span className="post__caption"> {caption}</span>
         </h4>

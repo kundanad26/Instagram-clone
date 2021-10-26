@@ -3,7 +3,8 @@ import "./App.css";
 import Post from "./Post";
 import ImageUpload from "./ImageUpload";
 import { db, auth } from "./firebase";
-import { Button, Avatar, makeStyles, Modal, Input } from "@material-ui/core";
+import { Button, Avatar, makeStyles, Input } from "@material-ui/core";
+import Modal from 'react-modal';
 function getModalStyle() {
   const top = 50;
   const left = 50;
@@ -38,7 +39,12 @@ function App() {
   const [user, setUser] = useState(null);
   const [open, setOpen] = useState(false);
   const [registerOpen, setRegisterOpen] = useState(false);
-  // const [show,setShow]=useState(false);
+  const [show,setShow]=useState(false);
+  const [imageUrl,setImage]=useState("");
+  const handleClick=(imageUrl)=>{
+         setImage(imageUrl);
+    setShow(true)};
+    const handleClose=() =>setShow(false);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
@@ -58,7 +64,7 @@ function App() {
   }, [user, username]);
 
   useEffect(() => {
-    db.collection("posts")
+      db.collection("posts")
       .orderBy("timestamp", "desc")
       .onSnapshot((snapshot) =>
         setPosts(snapshot.docs.map((doc) => ({ id: doc.id, post: doc.data() })))
@@ -89,6 +95,7 @@ function App() {
   };
 
   return (
+    <div>
     <div className="app">
       <Modal open={open} onClose={() => setOpen(false)}>
         <div style={modalStyle} className={classes.paper}>
@@ -100,7 +107,6 @@ function App() {
                 alt=""
               />
             </center>
-
             <Input
               placeholder="email"
               type="text"
@@ -183,6 +189,7 @@ function App() {
                 username={post.username}
                 caption={post.caption}
                 imageUrl={post.imageUrl}
+                handleClick={handleClick}
               />
             ))}
         </div>
@@ -199,7 +206,11 @@ function App() {
         </center>
       )}
     </div>
+    {show&&<Modal isOpen={show} onRequestClose={handleClose}> 
+    <img className="post__image" src={imageUrl} alt="post" />
+    </Modal>}
+</div>
   );
-}
+} 
 
 export default App;
