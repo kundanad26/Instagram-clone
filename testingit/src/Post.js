@@ -52,7 +52,9 @@ const Post = forwardRef(
           />
           <h3>{username}</h3>
         </div>
-         
+       {show&& <Modal isOpen={show} onRequestClose={handleClose}> 
+        <img className="post__image" src={imageUrl} alt="post" />
+         </Modal> }
          <img className="post__image" onClick={()=>{setShow(true);
           console.log("hi",show)}} src={imageUrl} alt="post" />
         <h4 className="post__text"><strong>{username}</strong>
@@ -85,10 +87,9 @@ const Post = forwardRef(
             </button>
           </form>
         )}
-        <Modal isOpen={show} onRequestClose={handleClose}> 
-        {/* <Modal.Header closeButton> </Modal.Header> */}
-        <img className="post__image" src={imageUrl} alt="post" />
-         </Modal> 
+        {/* <Modal isOpen={show} onRequestClose={handleClose}>  */}
+        {/* <img className="post__image" src={imageUrl} alt="post" /> */}
+         {/* </Modal>  */}
       </div>
     );
   }
