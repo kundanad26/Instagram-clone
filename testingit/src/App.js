@@ -3,7 +3,7 @@ import "./App.css";
 import Post from "./Post";
 import ImageUpload from "./ImageUpload";
 import { db, auth } from "./firebase";
-import { Button, Avatar, makeStyles, Input } from "@material-ui/core";
+import { Button, Avatar, makeStyles,Modal as Mod, Input } from "@material-ui/core"; 
 import Modal from 'react-modal';
 function getModalStyle() {
   const top = 50;
@@ -41,10 +41,10 @@ function App() {
   const [registerOpen, setRegisterOpen] = useState(false);
   const [show,setShow]=useState(false);
   const [imageUrl,setImage]=useState("");
-  const handleClick=(imageUrl)=>{
-         setImage(imageUrl);
-    setShow(true)};
-    const handleClose=() =>setShow(false);
+   const handleClick=(imageUrl)=>{
+          setImage(imageUrl);
+     setShow(true)};
+     const handleClose=() =>setShow(false);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
@@ -53,7 +53,8 @@ function App() {
         console.log(authUser);
         setUser(authUser);
         }
-      else {
+      else 
+      {
         setUser(null);  //user is logged out 
       }
     });
@@ -95,9 +96,9 @@ function App() {
   };
 
   return (
-    <div>
+   <div>
     <div className="app">
-      <Modal open={open} onClose={() => setOpen(false)}>
+      <Mod open={open} onClose={() => setOpen(false)}>
         <div style={modalStyle} className={classes.paper}>
           <form className="app__login">
             <center>
@@ -122,9 +123,9 @@ function App() {
             <Button onClick={handleLogin}>Login</Button>
           </form>
         </div>
-      </Modal>
+      </Mod>
 
-      <Modal open={registerOpen} onClose={() => setRegisterOpen(false)}>
+      <Mod open={registerOpen} onClose={() => setRegisterOpen(false)}>
         <div style={modalStyle} className={classes.paper}>
           <form className="app__login">
             <center>
@@ -155,7 +156,7 @@ function App() {
             <Button onClick={handleRegister}>Register</Button>
           </form>
         </div>
-      </Modal>
+      </Mod>
       <div className="app__header">
         <img
           className="app__headerImage"
@@ -205,11 +206,11 @@ function App() {
           <h3> Login to upload</h3>
         </center>
       )}
-    </div>
-    {show&&<Modal isOpen={show} onRequestClose={handleClose}> 
-    <img className="post__image" src={imageUrl} alt="post" />
-    </Modal>}
-</div>
+     </div> 
+     {show&&<Modal isOpen={show} onRequestClose={handleClose}>  
+     <img className="post__image" src={imageUrl} alt="post" /> 
+     </Modal>} 
+ </div>
   );
 } 
 
